@@ -41,9 +41,55 @@ void print_help_menu(void)
 	printf("Forms:\n\ttolower \"{source_file(s)}\" -{argument(s)}\n\ttolower \"{source_file(s)}\"\nArguments:\n\th prints help menu\n\te applys tolower to file extensions\n");
 }
 
+//returns index of last '.'
+//returns index of '\0' if no '.' is found
+int find_extension(char *str)
+{
+	int ext_index = -1;
+	int str_index = 0;
+
+	while(str[str_index] != '\0'){
+		if(str[str_index] == '.'){
+			ext_index = str_index;
+		}
+		++str_index;
+	}
+
+	if(ext_index == -1){
+		return str_index;
+	}
+
+	return ext_index;
+}
+
+void mvlower(char *file_name, char *args)
+{
+	char lower[MAX_LINUX_FILE_NAME_BUFF];
+	char command[(MAX_LINUX_FILE_NAME_BUFF * 2) + 10];// extra space added to hold mv
+
+	int ext_index = (args['e'] == PASSED)? find_extension(file_name): MAX_LINUX_FILE_NAME_BUFF;
+
+	int index = 0;
+
+	for(index = 0; file_name[index] != '\0'; ++index){
+		if(isalpha(file_name[index]) && !(args['e'] == PASSED && index > ext_index)){
+			lower[index] = tolower(file_name[index]);
+		}else{
+			lower[index] = file_name[index];
+		}
+	}
+
+	lower[index] = '\0';
+
+	if(strcmp(lower, file_name)){//avoids mv same dest error
+		sprintf(command, "mv \"%s\" \"%s\"", file_name, lower);
+		system(command);
+	}
+}
+
 int main(int argc, char **argv)
 {
-	if(argc <= 1 || argc > 3){
+	if(argc <= 1){
 		command_error();
 	}
 
@@ -56,11 +102,10 @@ int main(int argc, char **argv)
 	args['e'] = VALID;
 	args['h'] = VALID;
 
-	if(argc == 3){
-		if(argv[2][0] == '-'){
-			parse_args(argv[2], args);
-		}else{
-			command_error();
+	//finds arguments for argv
+	for(int i = 1; i < argc; ++i){
+		if(argv[i][0] == '-'){
+			parse_args(argv[i], args);
 		}
 	}
 
@@ -69,31 +114,9 @@ int main(int argc, char **argv)
 		return 0;
 	}
 
-	FILE *fp = NULL;
-	char ls_output[MAX_LINUX_FILE_NAME_BUFF];
-	char lower[MAX_LINUX_FILE_NAME_BUFF];
-	char command[(MAX_LINUX_FILE_NAME_BUFF * 2) + 10];// extra space added to hold mv
-
-	fp = popen("ls -a", "r");
-
-	while(NULL != fgets(ls_output, MAX_LINUX_FILE_NAME_BUFF, fp)){
-		for(int i = 0; ls_output[i] != '\0'; ++i){
-			if(isalpha(ls_output[i])){
-				lower[i] = tolower(ls_output[i]);
-			}else if(ls_output[i] == '\n'){
-				lower[i] = '\0';
-				ls_output[i] = '\0';
-			}else if(ls_output[i] == '\r'){
-				lower[i] = '\0';
-				ls_output[i] = '\0';
-			}else{
-				lower[i] = ls_output[i];
-			}
-		}
-
-		if(strcmp(lower, ls_output)){//avoids mv same dest error
-			sprintf(command, "mv %s %s", ls_output, lower);
-//			system(command);
+	for(int i = 1; i < argc; ++i){
+		if(argv[i][0] != '-'){
+			mvlower(argv[i], args);
 		}
 	}
 
