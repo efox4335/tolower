@@ -38,7 +38,7 @@ void parse_args(char *in_args, char *passed_args)
 
 void print_help_menu(void)
 {
-	printf("Forms:\n\ttolower \"{source_file(s)}\" -{argument(s)}\n\ttolower \"{source_file(s)}\"\nArguments:\n\th prints help menu\n\tr applys tolower in any subdirectory that matches {source_files(s)}\n\te applys tolower to file extensions\n");
+	printf("Forms:\n\ttolower \"{source_file(s)}\" -{argument(s)}\n\ttolower \"{source_file(s)}\"\nArguments:\n\th prints help menu\n\te applys tolower to file extensions\n");
 }
 
 int main(int argc, char **argv)
@@ -53,7 +53,6 @@ int main(int argc, char **argv)
 		args[i] = 0;
 	}
 
-	args['r'] = VALID;
 	args['e'] = VALID;
 	args['h'] = VALID;
 
