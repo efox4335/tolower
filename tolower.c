@@ -7,8 +7,8 @@
 
 int main(int argc, char **argv)
 {
-	if(argc == 1){
-		printf("Error tolower take forms:\n\ttolower \"source_file\" -{argument(s)}\n\ttolower -{argument(s)}\nTry tolower -h for help.\n");
+	if(argc <= 1){
+		printf("Error tolower take forms:\n\ttolower \"source_file(s)\" -{argument(s)}\n\ttolower -{argument(s)}\nTry tolower -h for help.\n");
 		return 1;
 	}
 
