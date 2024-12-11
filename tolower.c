@@ -10,7 +10,7 @@
 
 void command_error(void)
 {
-	printf("Error tolower take forms:\n\ttolower \"{source_file(s)}\" -{argument(s)}\n\ttolower \"{source_file(s)}\"\nTry 'tolower -h' for help.\n");
+	printf("Error tolower take forms:Try 'tolower -h' for help.\n");
 	exit(1);
 }
 
@@ -36,6 +36,11 @@ void parse_args(char *in_args, char *passed_args)
 	}
 }
 
+void print_help_menu(void)
+{
+	printf("Forms:\n\ttolower \"{source_file(s)}\" -{argument(s)}\n\ttolower \"{source_file(s)}\"\nArguments:\n\th prints help menu\n\tr applys tolower in any subdirectory that matches {source_files(s)}\n\te applys tolower to file extensions\n");
+}
+
 int main(int argc, char **argv)
 {
 	if(argc <= 1 || argc > 3){
@@ -58,6 +63,11 @@ int main(int argc, char **argv)
 		}else{
 			command_error();
 		}
+	}
+
+	if(args['h'] == PASSED){
+		print_help_menu();
+		return 0;
 	}
 
 	FILE *fp = NULL;
