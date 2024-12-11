@@ -8,9 +8,11 @@
 int main(int argc, char **argv)
 {
 	if(argc == 1){
-		printf("Error tolower take forms:\n\t\"tolower \'source_file\' -{argument(s)}\"\n\t\"tolower -{argument(s)}\"\nTry tolower -h for help.\n");
+		printf("Error tolower take forms:\n\ttolower \"source_file\" -{argument(s)}\n\ttolower -{argument(s)}\nTry tolower -h for help.\n");
 		return 1;
 	}
+
+
 
 	FILE *fp = NULL;
 	char ls_output[MAX_LINUX_FILE_NAME_BUFF];
