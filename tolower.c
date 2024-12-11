@@ -7,7 +7,7 @@
 
 void command_error(void)
 {
-	printf("Error tolower take forms:\n\ttolower \"{source_file(s)}\" -{argument(s)}\n\ttolower -{argument(s)}\nTry tolower -h for help.\n");
+	printf("Error tolower take forms:\n\ttolower \"{source_file(s)}\" -{argument(s)}\n\ttolower -{argument(s)}\n\ttolower \"{source_file(s)}\"\nTry tolower -h for help.\n");
 	exit(1);
 }
 
