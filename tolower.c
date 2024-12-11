@@ -5,11 +5,16 @@
 
 #define MAX_LINUX_FILE_NAME_BUFF 5000
 
+void command_error(void)
+{
+	printf("Error tolower take forms:\n\ttolower \"source_file(s)\" -{argument(s)}\n\ttolower -{argument(s)}\nTry tolower -h for help.\n");
+	exit(1);
+}
+
 int main(int argc, char **argv)
 {
 	if(argc <= 1){
-		printf("Error tolower take forms:\n\ttolower \"source_file(s)\" -{argument(s)}\n\ttolower -{argument(s)}\nTry tolower -h for help.\n");
-		return 1;
+		command_error();
 	}
 
 
