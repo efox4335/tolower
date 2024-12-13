@@ -38,7 +38,7 @@ void parse_args(char *in_args, char *passed_args)
 
 void print_help_menu(void)
 {
-	printf("Forms:\n\ttolower \"{source_file(s)}\" -{argument(s)}\n\ttolower \"{source_file(s)}\"\nArguments:\n\th prints help menu\n\te applys tolower to file extensions\n");
+	printf("Forms:\n\ttolower \"{source_file(s)}\" -{argument(s)}\n\ttolower \"{source_file(s)}\"\nArguments:\n\th prints help menu\n\te applys tolower to file extensions\n\tc prints the number of files renamed\n");
 }
 
 //returns index of last '.'
@@ -62,7 +62,8 @@ int find_extension(char *str)
 	return ext_index;
 }
 
-void mvlower(char *file_name, char *args)
+//returns 1 if file was moved
+int mvlower(char *file_name, char *args)
 {
 	char lower[MAX_LINUX_FILE_NAME_BUFF];
 	char command[(MAX_LINUX_FILE_NAME_BUFF * 2) + 10];// extra space added to hold mv
@@ -82,9 +83,12 @@ void mvlower(char *file_name, char *args)
 	lower[index] = '\0';
 
 	if(strcmp(lower, file_name)){//avoids mv same dest error
+		return 1;
 		sprintf(command, "mv \"%s\" \"%s\"", file_name, lower);
 		system(command);
 	}
+
+	return 0;
 }
 
 int main(int argc, char **argv)
@@ -101,6 +105,7 @@ int main(int argc, char **argv)
 
 	args['e'] = VALID;
 	args['h'] = VALID;
+	args['c'] = VALID;
 
 	//finds arguments for argv
 	for(int i = 1; i < argc; ++i){
@@ -114,10 +119,16 @@ int main(int argc, char **argv)
 		return 0;
 	}
 
+	//finds files to rename
+	int count = 0;
 	for(int i = 1; i < argc; ++i){
 		if(argv[i][0] != '-'){
-			mvlower(argv[i], args);
+			count += mvlower(argv[i], args);
 		}
+	}
+
+	if(args['c'] == PASSED){
+		printf("%d\n", count);
 	}
 
 	return 0;

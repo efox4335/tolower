@@ -8,3 +8,4 @@
 # Arguments:
 	-h Prints help menu.
 	-e Applys tolower to file extensions. By default tolower does not change the case of file extensions.
+	-c Prints the number of files renamed.
