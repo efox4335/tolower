@@ -128,7 +128,7 @@ int main(int argc, char **argv)
 	}
 
 	if(args['c'] == PASSED){
-		printf("%d\n", count);
+		printf("%d Files moved.\n", count);
 	}
 
 	return 0;
